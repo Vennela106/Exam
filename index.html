@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My E-Commerce Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #1e40af;
+            padding: 12px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .products {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product {
+            background: white;
+            width: 220px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .product .emoji {
+            font-size: 60px;
+        }
+
+        .product button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .product button:hover {
+            background: #1d4ed8;
+        }
+
+        footer {
+            text-align: center;
+            background: #172554;
+            color: white;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My E-Commerce Store</h1>
+        <p>Shop your favorite products online!</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="user.html">User Profile</a>
+        <a href="#products">Products</a>
+    </nav>
+
+    <h2 id="products">Our Products</h2>
+
+    <div class="products">
+        <div class="product">
+            <div class="emoji">🎧</div>
+            <h3>Headphones</h3>
+            <p>Price: ₹999</p>
+            <button onclick="addToCart('Headphones', 999)">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="product">
+            <div class="emoji">⌚</div>
+            <h3>Smart Watch</h3>
+            <p>Price: ₹1,499</p>
+            <button onclick="addToCart('Smart Watch', 1499)">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="product">
+            <div class="emoji">🎒</div>
+            <h3>Backpack</h3>
+            <p>Price: ₹799</p>
+            <button onclick="addToCart('Backpack', 799)">
+                Add to Cart
+            </button>
+        </div>
+    </div>
+
+    <h2 id="cart">Shopping Cart</h2>
+    <p id="cartCount" style="text-align:center;">Cart items: 0</p>
+    <p id="cartTotal" style="text-align:center;">Total: ₹0</p>
+
+    <footer>
+        <p>&copy; 2026 My E-Commerce Store</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        function updateCart() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const total = cart.reduce(
+                (sum, item) => sum + item.price * item.quantity, 0
+            );
+
+            document.getElementById("cartCount").textContent =
+                "Cart items: " + count;
+
+            document.getElementById("cartTotal").textContent =
+                "Total: ₹" + total;
+        }
+
+        function addToCart(name, price) {
+            const item = cart.find(product => product.name === name);
+
+            if (item) {
+                item.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+            alert(name + " added to cart!");
+        }
+
+        updateCart();
+    </script>
+</body>
+</html>
